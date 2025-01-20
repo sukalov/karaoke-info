@@ -1,0 +1,43 @@
+---
+import "@fontsource-variable/inter";
+import Footer from "~/components/footer.astro";
+import Title from "~/components/title.astro";
+import "~/styles/index.css";
+import VideoBackground from "~/components/video-background.astro";
+import MuteControl from "~/components/mute-control.astro";
+
+const { generator, site } = Astro;
+const description =
+  "Живое караоке — мероприятие от московского музыкального синдиката, где каждому даётся минута славы";
+---
+
+<!doctype html>
+<html lang="en" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={generator} />
+
+    <title>живое караоке</title>
+    <meta name="description" content={description} />
+
+    <!-- social media -->
+    <meta property="og:title" content="Живое караоке" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={site} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+  </head>
+  <body
+    class="overflow-x-hidden bg-default text-default text-base selection:bg-secondary selection:text-white pb-6"
+  >
+    <VideoBackground />
+    <MuteControl />
+    <Title />
+    <div class="space-y-24 px-8 h-screen">
+    </div>
+    <Footer />
+  </body>
+</html>

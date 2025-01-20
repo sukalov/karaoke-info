@@ -1,0 +1,35 @@
+<style>
+  .video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  .unmute-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .unmute-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+</style>
+
+<video class="video-background" id="bgVideo" autoplay muted loop playsinline>
+  <source
+    src={"https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIw1LCZEL29jJByc8GmSkzIMr7UC06QTnN5Alt4"}
+    type="video/mp4"
+  />
+  your browser does not support the video tag.
+</video>

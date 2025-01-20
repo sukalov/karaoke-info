@@ -1,0 +1,32 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<button
+  class="z-10 unmute-button fixed bottom-6 left-6 h-12 rounded-full bg-slate-950 p-3 text-orange-500 transition-opacity hover:opacity-55 sm:top-4"
+  id="unmuteButton"
+>
+  <Icon class="size-full" id="muteIcon" name="mdi:mute" />
+  <Icon class="hidden size-full" id="unmuteIcon" name="mdi:volume" />
+</button>
+
+<script>
+  const video = document.getElementById("bgVideo") as HTMLVideoElement;
+  const button = document.getElementById("unmuteButton");
+  const muteIcon = document.getElementById("muteIcon");
+  const unmuteIcon = document.getElementById("unmuteIcon");
+
+  if (button && video && muteIcon && unmuteIcon) {
+    button.addEventListener("click", () => {
+      if (video.muted) {
+        video.muted = false;
+        muteIcon.classList.add("hidden");
+        unmuteIcon.classList.remove("hidden");
+      } else {
+        video.muted = true;
+        muteIcon.classList.remove("hidden");
+        unmuteIcon.classList.add("hidden");
+      }
+    });
+  }
+</script>
