@@ -2,7 +2,9 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<footer class="mx-2 mt-6 rounded-3xl bg-default py-4 px-8 sm:m-0 sm:rounded-none transition-all">
+<footer
+  class="relative mx-2 mt-6 rounded-3xl text-offset bg-default px-8 py-4 transition-all md:m-0 md:rounded-none"
+>
   <div
     class="container mx-auto flex flex-col items-center justify-between sm:flex-row"
   >
@@ -16,7 +18,7 @@ import { Icon } from "astro-icon/components";
         target="_blank"
         aria-label="телеграм канал про наши мероприятия"
         rel="noopener noreferrer"
-        class="hover:text-primary translate-y-1"
+        class="translate-y-1 hover:text-primary"
       >
         <Icon name="mdi:telegram" />
       </a>
@@ -25,7 +27,7 @@ import { Icon } from "astro-icon/components";
         target="_blank"
         aria-label="инстаграм нашего ансамбля"
         rel="noopener noreferrer"
-        class="hover:text-primary translate-y-1"
+        class="translate-y-1 hover:text-primary"
       >
         <Icon name="fa-brands:instagram" />
       </a>
@@ -35,7 +37,7 @@ import { Icon } from "astro-icon/components";
         href="https://github.com/sukalov/karaoke-info"
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:text-primary translate-y-1"
+        class="translate-y-1 hover:text-primary"
         aria-label="исходный код этой страницы"
       >
         <Icon name="fa-brands:github" />
