@@ -1,42 +1,57 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { FooterLink } from "~/types";
-
-const links: Array<FooterLink> = [
-  {
-    url: "https://t.me/povsemmestam",
-    description: "канал в телеграме",
-    icon: "mdi:telegram",
-  },
-  {
-    url: "https://instagram.com/via_na_prazdnik",
-    description: "инстаграм ансамбля",
-    icon: "fa-brands:instagram",
-  },
-  {
-    url: "https://github.com/sukalov/karaoke-info",
-    description: "исходный код сайта",
-    icon: "fa-brands:github",
-  },
-];
 ---
 
-<footer
-  class="relative mx-6 flex h-36 items-center justify-center rounded-3xl bg-default sm:ml-auto sm:h-28"
->
-  <ul class="relative grid grid-cols-3 gap-4 sm:gap-8">
-    {
-      links.map((link) => (
-        <li>
-          <a
-            class="flex size-16 items-center justify-center p-4 text-default hover:text-primary"
-            href={link.url}
-          >
-            <span class="sr-only">{link.description}</span>
-            <Icon class="size-full" name={link.icon} />
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+<footer class="mx-2 mt-6 rounded-3xl bg-default py-4 px-8 sm:m-0 sm:rounded-none transition-all">
+  <div
+    class="container mx-auto flex flex-col items-center justify-between sm:flex-row"
+  >
+    <div class="mb-2 flex w-full space-x-3 sm:mb-0 sm:w-auto">
+      <div class="text-muted text-sm">
+        <span class="align-middle">&copy;</span>&nbsp;мосмузсин
+      </div>
+      <div class="flex-grow sm:hidden"></div>
+      <a
+        href="https://t.me/povsemmestam"
+        target="_blank"
+        aria-label="телеграм канал про наши мероприятия"
+        rel="noopener noreferrer"
+        class="hover:text-primary translate-y-1"
+      >
+        <Icon name="mdi:telegram" />
+      </a>
+      <a
+        href="https://instagram.com/via_na_prazdnik"
+        target="_blank"
+        aria-label="инстаграм нашего ансамбля"
+        rel="noopener noreferrer"
+        class="hover:text-primary translate-y-1"
+      >
+        <Icon name="fa-brands:instagram" />
+      </a>
+    </div>
+    <div class="flex w-full gap-1 sm:w-auto sm:gap-3">
+      <a
+        href="https://github.com/sukalov/karaoke-info"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-primary translate-y-1"
+        aria-label="исходный код этой страницы"
+      >
+        <Icon name="fa-brands:github" />
+      </a>
+      <div class="flex-grow sm:hidden"></div>
+      <div class="text-sm sm:mb-0">
+        by&nbsp;
+        <a
+          href="https://sukalov.dev"
+          aria-label="автор сайта"
+          class="underline underline-offset-2 transition-all hover:text-primary"
+        >
+          sukalov.dev
+        </a>
+      </div>
+      <p class="text-sm">2025</p>
+    </div>
+  </div>
 </footer>
