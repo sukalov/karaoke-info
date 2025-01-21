@@ -1,0 +1,60 @@
+---
+
+---
+
+<section
+  class="fast-div relative m-6 rounded-[3rem] bg-inherit p-16 sm:mr-auto sm:w-[22rem] md:w-[min(50vw,48rem)]"
+>
+  <div>
+    <p class="text-balance text-default">
+      Живое караоке Московского музыкального синдиката – формат, в котором все
+      желающие могут исполнить песню в микрофон под аккомпанемент ансамбля.
+      Басист, пианист и ударник играют песни, которые люди выбирают из
+      <a
+        class="gradient-text hover:text-green-300"
+        href="https://karaoke.sukalov.dev">музыкального меню</a
+      >, заказы записываются по очередности. Петь можно всем.
+      <br />
+      <br />
+      Ударник выступает и ведущим, он ведёт мероприятие, приглашает выступающих из
+      списка, вставляет свои реплики и раскачивает зал. Выступающий поет в микрофон
+      и чувствует себя практически артистом, люди вокруг вовлечены и подпевают ему.
+      Образуется общее веселое поле и праздник, а где-то даже терапия. Живое караоке
+      регулярно проводится в двух московских рюмочных, также формат обкатан на частных
+      праздниках и корпоративах (например, Т-банка).
+      <br />
+      <br />
+      Оптимальный формат проведения — 2 часа.
+    </p>
+  </div>
+</section>
+
+<script>
+  const fast = document.querySelector(".fast-div") as HTMLElement;
+
+  if (fast) {
+    let raf: number | null = null;
+    const speedMultiplier = 1.7; // Change this to adjust speed
+    const initY = fast.getBoundingClientRect().top + window.scrollY;
+    let lastScrollY = window.scrollY;
+
+    const updatePosition = () => {
+      fast.style.transform = `translateY(${initY - window.scrollY * speedMultiplier}px)`;
+      raf = null;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        const currentScrollY = window.scrollY;
+        if (Math.abs(currentScrollY - lastScrollY) >= 3) {
+          lastScrollY = currentScrollY;
+          if (!raf) {
+            raf = requestAnimationFrame(updatePosition);
+          }
+        }
+      },
+      { passive: true }
+    );
+  }
+</script>

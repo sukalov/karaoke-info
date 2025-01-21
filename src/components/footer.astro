@@ -22,14 +22,14 @@ const links: Array<FooterLink> = [
 ---
 
 <footer
-  class="relative mx-6 flex h-52 items-center justify-center rounded-3xl bg-stone-950 sm:h-36 text-orange-40"
+  class="relative mx-6 flex h-36 items-center justify-center rounded-3xl bg-default sm:ml-auto sm:h-28"
 >
-  <ul class="relative grid gap-4 grid-cols-3 sm:gap-8">
+  <ul class="relative grid grid-cols-3 gap-4 sm:gap-8">
     {
       links.map((link) => (
         <li>
           <a
-            class="text-primary flex size-16 items-center justify-center rounded-full border-2 border-primary hover:border-orange-500 p-4 hover:text-orange-600"
+            class="flex size-16 items-center justify-center p-4 text-default hover:text-primary"
             href={link.url}
           >
             <span class="sr-only">{link.description}</span>

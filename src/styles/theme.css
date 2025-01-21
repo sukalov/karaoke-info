@@ -13,7 +13,8 @@
   --color-secondary: theme("colors.stone.400");
   --color-text: theme("colors.stone.50");
   --color-text-offset: theme("colors.stone.400");
-  --color-background: theme("colors.stone.900");
+  --color-background: theme("colors.stone.950");
   --color-background-offset: theme("colors.stone.800");
   --color-border: theme("colors.stone.50" / 10%);
+  --color-synth-keyletter: theme("colors.stone.950")
 }

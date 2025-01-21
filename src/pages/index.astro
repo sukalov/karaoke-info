@@ -5,6 +5,8 @@ import Title from "~/components/title.astro";
 import "~/styles/index.css";
 import VideoBackground from "~/components/video-background.astro";
 import MuteControl from "~/components/mute-control.astro";
+import SynthKeyboard from "~/components/synth/synth-keyboard.astro";
+import MainText from "~/components/main-text.astro";
 
 const { generator, site } = Astro;
 const description =
@@ -30,12 +32,13 @@ const description =
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body
-    class="overflow-x-hidden bg-default pb-6 text-default text-base selection:bg-secondary selection:text-white"
+    class="overflow-x-hidden bg-default pb-6 text-default text-base selection:bg-secondary selection:text-default"
   >
     <VideoBackground />
     <MuteControl />
     <Title />
-    <div class="h-screen space-y-24 px-8"></div>
+    <MainText />
+    <SynthKeyboard />
     <Footer />
   </body>
 </html>
