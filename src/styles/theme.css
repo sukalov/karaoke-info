@@ -9,10 +9,11 @@
   --synth-lcd-bg: var(--color-background);
   --synth-lcd-medium: red;
   --synth-lcd-dark: white;
+  box-sizing: border-box;
 }
 
 [data-theme="light"] {
-  --color-primary: theme("colors.orange.300");
+  --color-primary: theme("colors.green.300");
   --color-secondary: theme("colors.stone.600");
   --color-text: theme("colors.stone.900");
   --color-text-offset: theme("colors.stone.600");
@@ -22,7 +23,7 @@
 }
 
 [data-theme="dark"] {
-  --color-primary: theme("colors.orange.300");
+  --color-primary: theme("colors.green.300");
   --color-secondary: theme("colors.stone.400");
   --color-text: theme("colors.stone.300");
   --color-text-offset: theme("colors.stone.400");
