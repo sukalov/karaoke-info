@@ -3,12 +3,25 @@ import { Howl } from "howler";
 const SOUNDS_DIRECTORY = "sounds/";
 
 export const sounds = {
+  ui: {
+    click: {
+      howl: new Howl({
+        src: [`${SOUNDS_DIRECTORY}click.wav`],
+      }),
+    },
+
+    ding: {
+      howl: new Howl({
+        src: [`${SOUNDS_DIRECTORY}bell.wav`],
+      }),
+    },
+  },
   instruments: [
     {
       name: "Piano",
       staffType: "normal",
       howl: new Howl({
-        preload: false,
+        preload: true,
         src: [`${SOUNDS_DIRECTORY}piano.mp3`],
         sprite: {
           A3: [0, 3776.2131519274376],

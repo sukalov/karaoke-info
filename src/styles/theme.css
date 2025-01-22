@@ -5,7 +5,7 @@
   --synth-whitekey-pressed: white;
   --synth-whitekey: var(--color-text);
   --synth-blackkey: var(--color-background-offset);
-  --synth-blackkey-pressed: theme("colors.stone.800");
+  --synth-blackkey-pressed: theme("colors.stone.700");
   --synth-base: var(--color-background);
   --synth-lcd-bg: var(--color-background);
   --synth-lcd-medium: red;

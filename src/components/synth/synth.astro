@@ -102,7 +102,7 @@ import SynthScreen from "./synth-screen.astro";
 
         const baseSpeed = randomIntFromInterval(30, 50); // Lower is faster
         const force = randomIntFromInterval(5, 30); // How hard do you 'pull down the wheel'?
-        const slowestSpeed = 700; // How slow can the roulette go before ending?
+        const slowestSpeed = 0; // How slow can the roulette go before ending?
         const friction = 1.3; // How quickly to put on the brakes (1 to 1.5)
 
         let speed = baseSpeed;
@@ -113,7 +113,6 @@ import SynthScreen from "./synth-screen.astro";
           i++;
 
           if (speed >= slowestSpeed) {
-            sounds.ui.ding.howl.play();
             synth.dataset.loading = "false";
             clearTimeout(timeout);
             if (callback) {
@@ -431,70 +430,104 @@ import SynthScreen from "./synth-screen.astro";
       ) {
         switch (e.key) {
           case "a":
+          case "ф":
+          case "Ф":
           case "A":
             releaseKey("C3");
             break;
           case "w":
+          case "ц":
+          case "Ц":
           case "W":
             releaseKey("Csharp3");
             break;
           case "s":
+          case "ы":
+          case "Ы":
           case "S":
             releaseKey("D3");
             break;
           case "e":
+          case "у":
+          case "У":
           case "E":
             releaseKey("Dsharp3");
             break;
           case "d":
+          case "в":
+          case "В":
           case "D":
             releaseKey("E3");
             break;
           case "f":
+          case "а":
+          case "А":
           case "F":
             releaseKey("F3");
             break;
           case "t":
+          case "е":
+          case "Е":
           case "T":
             releaseKey("Fsharp3");
             break;
           case "g":
+          case "п":
+          case "П":
           case "G":
             releaseKey("G3");
             break;
           case "y":
+          case "н":
+          case "Н":
           case "Y":
             releaseKey("Gsharp3");
             break;
           case "h":
+          case "р":
+          case "":
           case "H":
             releaseKey("A3");
             break;
           case "u":
+          case "г":
+          case "Г":
           case "U":
             releaseKey("Asharp3");
             break;
           case "j":
+          case "о":
+          case "О":
           case "J":
             releaseKey("B3");
             break;
           case "k":
+          case "л":
+          case "Л":
           case "K":
             releaseKey("C4");
             break;
           case "o":
+          case "щ":
+          case "Щ":
           case "O":
             releaseKey("Csharp4");
             break;
           case "l":
+          case "д":
+          case "Д":
           case "L":
             releaseKey("D4");
             break;
           case "p":
+          case "з":
+          case "З":
           case "P":
             releaseKey("Dsharp4");
             break;
           case ";":
+          case "ж":
+          case "Ж":
           case ":":
             releaseKey("E4");
             break;
