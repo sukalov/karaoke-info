@@ -1,3 +1,18 @@
+:root {
+  --synth-base: var(--color-background);
+  --synth-stroke: var(--color-background-offset);
+  --synth-keyletter: var(--color-background-offset);
+  --synth-whitekey-pressed: white;
+  --synth-whitekey: var(--color-text);
+  --synth-blackkey: var(--color-background-offset);
+  --synth-blackkey-pressed: theme("colors.stone.800");
+  --synth-base: var(--color-background);
+  --synth-lcd-bg: var(--color-background);
+  --synth-lcd-medium: red;
+  --synth-lcd-dark: yellow;
+  --synth-keyletter: var(--gray-12);
+}
+
 [data-theme="light"] {
   --color-primary: theme("colors.orange.300");
   --color-secondary: theme("colors.stone.600");
