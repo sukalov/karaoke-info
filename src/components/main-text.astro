@@ -46,7 +46,7 @@
 
     if (fast) {
       let raf: number | null = null;
-      const speedMultiplier = 2.05; // Change this to adjust speed
+      const speedMultiplier = 2.65; // Change this to adjust speed
       const initY = 0;
       let lastScrollY = window.scrollY;
       console.log({ initY, lastScrollY });
@@ -60,7 +60,7 @@
         "scroll",
         () => {
           const currentScrollY = window.scrollY;
-          if (Math.abs(currentScrollY - lastScrollY) >= 3) {
+          if (Math.abs(currentScrollY - lastScrollY) >= 2) {
             lastScrollY = currentScrollY;
             if (!raf) {
               raf = requestAnimationFrame(updatePosition);
