@@ -18,6 +18,7 @@ import { Icon } from "astro-icon/components";
   const unmuteIcon = document.getElementById("unmuteIcon");
 
   if (button && video && muteIcon && unmuteIcon) {
+    video.volume = 0.5;
     button.addEventListener("click", () => {
       if (video.muted) {
         video.muted = false;
