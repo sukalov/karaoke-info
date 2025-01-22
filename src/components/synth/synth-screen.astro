@@ -3,14 +3,12 @@
 ---
 
 <Fragment>
-  <g id="synth-screen" transform="translate(24.000000, 4.000000)">
-    <rect class="lcd-bg" x="1" y="2" width="220" height="0" rx="4"></rect>
-    <g class="synth-instruments" transform="translate(108.000000, 6.000000)">
-      <g class="synth-instrument" transform="translate(30.000000, 0.000000)">
+  <g id="synth-screen" transform="translate(0.000000, 4.000000)">
+    <g class="synth-instruments">
+      <g class="synth-instrument">
         <rect
           class="hitarea"
           fill-opacity="0"
-          fill-rule="nonzero"
           x="0"
           y="0"
           width="44"
@@ -20,27 +18,9 @@
           class="instrument"
           transform="translate(6.000000, 2.000000)"
         >
-          <path
-            d="M30,26 L30,24 L32,24 L32,28 L2,28 L2,24 L4,24 L4,26 L8,26 L8,24 L10,24 L10,26 L16,26 L16,24 L18,24 L18,26 L22,26 L22,24 L24,24 L24,26 L30,26 Z M10,6 L10,8 L6,8 L6,10 L2,10 L2,2 L14,2 L14,6 L10,6 Z M2,12 L6,12 L6,14 L2,14 L2,12 Z M6,10 L10,10 L10,12 L6,12 L6,10 Z M10,8 L14,8 L14,10 L10,10 L10,8 Z M14,6 L18,6 L18,8 L14,8 L14,6 Z"
-            class="lcd-highlight"></path>
-          <path
-            d="M14,34 L14,32 L6,32 L6,34 L4,34 L4,36 L2,36 L2,30 L0,30 L0,28 L32,28 L32,24 L30,24 L30,26 L24,26 L24,24 L22,24 L22,26 L18,26 L18,24 L16,24 L16,26 L10,26 L10,24 L8,24 L8,26 L4,26 L4,24 L2,24 L2,22 L4,22 L4,20 L8,20 L8,18 L12,18 L12,16 L16,16 L16,14 L20,14 L20,12 L24,12 L24,10 L28,10 L28,8 L30,8 L30,12 L26,12 L26,14 L24,14 L24,16 L28,16 L28,18 L32,18 L32,20 L34,20 L34,30 L32,30 L32,36 L30,36 L30,34 L28,34 L28,32 L16,32 L16,34 L18,34 L18,32 L20,32 L20,34 L22,34 L22,36 L12,36 L12,34 L14,34 Z M4,0 L12,0 L12,2 L4,2 L4,0 Z M2,2 L4,2 L4,4 L2,4 L2,2 Z M12,2 L14,2 L14,4 L12,4 L12,2 Z M16,6 L28,6 L28,8 L16,8 L16,6 Z M14,4 L16,4 L16,6 L14,6 L14,4 Z M0,4 L2,4 L2,28 L0,28 L0,4 Z"
-            class="lcd-base"
-            fill-rule="nonzero"></path>
         </g>
       </g>
     </g>
-  </g>
-
-  <g class="start">
-    <rect
-      id="hitarea"
-      fill-opacity="0"
-      fill-rule="nonzero"
-      x="0"
-      y="0"
-      width="270"
-      height="152"></rect>
   </g>
 </Fragment>
 
@@ -59,7 +39,7 @@
   .lcd-bg {
     fill: var(--synth-lcd-bg);
     stroke: var(--synth-stroke);
-    stroke-width: 3px;
+    stroke-width: 2px;
     vector-effect: non-scaling-stroke;
   }
 
@@ -148,7 +128,6 @@
     }
   }
 
-  .synth-instrument,
   .instrument-arrow {
     cursor: pointer;
   }

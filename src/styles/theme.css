@@ -5,12 +5,10 @@
   --synth-whitekey-pressed: white;
   --synth-whitekey: var(--color-text);
   --synth-blackkey: var(--color-background-offset);
-  --synth-blackkey-pressed: theme("colors.stone.700");
-  --synth-base: var(--color-background);
+  --synth-blackkey-pressed: theme("colors.stone.800");
   --synth-lcd-bg: var(--color-background);
   --synth-lcd-medium: red;
-  --synth-lcd-dark: yellow;
-  --synth-keyletter: var(--gray-12);
+  --synth-lcd-dark: white;
 }
 
 [data-theme="light"] {
@@ -19,7 +17,7 @@
   --color-text: theme("colors.stone.900");
   --color-text-offset: theme("colors.stone.600");
   --color-background: theme("colors.stone.50");
-  --color-background-offset: theme("colors.stone.100");
+  --color-background-offset: theme("colors.stone.900");
   --color-border: theme("colors.stone.900" / 10%);
 }
 
@@ -29,7 +27,7 @@
   --color-text: theme("colors.stone.300");
   --color-text-offset: theme("colors.stone.400");
   --color-background: theme("colors.stone.950");
-  --color-background-offset: theme("colors.stone.800");
+  --color-background-offset: theme("colors.stone.900");
   --color-border: theme("colors.stone.50" / 10%);
   --color-synth-keyletter: theme("colors.stone.950")
 }
