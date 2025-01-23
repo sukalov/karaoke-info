@@ -4,10 +4,10 @@
 
 <div class="title pt-2 md:px-2 md:pt-4">
   <section
-    class="relative mx-2 rounded-[3rem] bg-default p-2 md:ml-auto md:h-[calc(100svh-2rem)] md:w-[45vw] lg:w-[35vw]"
+    class="relative mx-2 rounded-[3rem] bg-default p-2 opacity-85 md:ml-auto md:h-[calc(100svh-2rem)] md:w-[45vw] lg:w-[35vw]"
   >
     <div
-      class="relative top-0 flex h-full w-full flex-col place-items-center justify-around gap-4 p-2"
+      class="opacity-100 relative top-0 flex h-full w-full flex-col place-items-center justify-around gap-4 p-2"
     >
       <h2 class="flex flex-col items-center gap-2 self-auto sm:gap-4">
         <div
@@ -54,7 +54,7 @@
         "scroll",
         () => {
           const currentScrollY = window.scrollY;
-          if (Math.abs(currentScrollY - lastScrollY) >= 2) {
+          if (Math.abs(currentScrollY - lastScrollY) >= 1) {
             lastScrollY = currentScrollY;
             if (currentScrollY < waitTime && !raf) {
               raf = requestAnimationFrame(updatePosition);
