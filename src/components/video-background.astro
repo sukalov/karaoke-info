@@ -17,10 +17,12 @@
 <script>
   const video = document.getElementById("bgVideo") as HTMLVideoElement;
   const loadingScreen = document.getElementById("loadingScreen");
+  document.body.style.overflow = "hidden";
 
   function handleVideoLoaded() {
     video!.classList.add("loaded");
     loadingScreen!.classList.add("hidden");
+    document.body.style.overflow = "scroll";
   }
 
   if (video!.readyState >= 3) {
