@@ -1,3 +1,34 @@
+<div class="loading-screen" id="loadingScreen">
+  <div class="container">
+    <ul class="loader">
+      <li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
+  </div>
+</div>
+
+<video class="video-background" id="bgVideo" autoplay muted loop playsinline>
+  <source
+    src={"https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIw1LCZEL29jJByc8GmSkzIMr7UC06QTnN5Alt4"}
+    type="video/mp4"
+  />
+  your browser does not support the video tag.
+</video>
+
+<script>
+  const video = document.getElementById("bgVideo") as HTMLVideoElement;
+  const loadingScreen = document.getElementById("loadingScreen");
+
+  function handleVideoLoaded() {
+    video!.classList.add("loaded");
+    loadingScreen!.classList.add("hidden");
+  }
+
+  if (video!.readyState >= 3) {
+    handleVideoLoaded();
+  } else {
+    video!.addEventListener("canplay", handleVideoLoaded);
+  }
+</script>
 <style>
   .video-background {
     position: fixed;
@@ -7,13 +38,109 @@
     height: 100%;
     z-index: -1;
     object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .video-background.loaded {
+    opacity: 1;
+  }
+
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .container {
+    z-index: 4;
+    margin: 0 auto;
+    left: 35px;
+    right: 0;
+    top: 50%;
+    margin-top: -45px;
+    width: 130px;
+    height: 80px;
+    list-style: none;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 40px;
+  }
+  .loader {
+    position: fixed;
+    z-index: 3;
+    margin: 0 auto;
+    left: 5px;
+    right: 0;
+    top: 50%;
+    margin-top: -48px;
+    width: 90px;
+    height: 60px;
+    list-style: none;
+  }
+
+  @keyframes loadbars {
+    0% {
+      height: 10px;
+      margin-top: 25px;
+    }
+    50% {
+      height: 50px;
+      margin-top: 0px;
+    }
+    100% {
+      height: 10px;
+      margin-top: 25px;
+    }
+  }
+
+  li {
+    background-color: var(--color-secondary);
+    width: 10px;
+    height: 10px;
+    float: right;
+    margin-right: 5px;
+    box-shadow: 0px 20px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  li:first-child {
+    animation: loadbars 1s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  }
+
+  li:nth-child(2) {
+    animation: loadbars 1s ease-in-out infinite;
+    animation-delay: -0.2s;
+  }
+
+  li:nth-child(3) {
+    animation: loadbars 1s ease-in-out infinite;
+    animation-delay: -0.4s;
+  }
+
+  li:nth-child(4) {
+    animation: loadbars 1s ease-in-out infinite;
+    animation-delay: -0.6s;
+  }
+
+  li:nth-child(5) {
+    animation: loadbars 1s ease-in-out infinite;
+    animation-delay: -0.8s;
+  }
+
+  li:nth-child(6) {
+    animation: loadbars 1s ease-in-out infinite;
+    animation-delay: -1s;
   }
 </style>
-
-<video class="video-background" id="bgVideo" autoplay muted loop playsinline>
-  <source
-    src={"https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIw1LCZEL29jJByc8GmSkzIMr7UC06QTnN5Alt4"}
-    type="video/mp4"
-  />
-  your browser does not support the video tag.
-</video>
