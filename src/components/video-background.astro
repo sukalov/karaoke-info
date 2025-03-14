@@ -1,4 +1,4 @@
-<div class="loading-screen" id="loadingScreen">
+<div class="loading-screen overflow-x-hidden" id="loadingScreen">
   <div class="container">
     <ul class="loader">
       <li></li><li></li><li></li><li></li><li></li><li></li>
@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<video class="video-background" id="bgVideo" autoplay muted loop playsinline>
+<video class="video-background overflow-x-hidden" id="bgVideo" autoplay muted loop playsinline>
   <source
     src={"https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIw1LCZEL29jJByc8GmSkzIMr7UC06QTnN5Alt4"}
     type="video/mp4"
@@ -22,7 +22,7 @@
   function handleVideoLoaded() {
     video!.classList.add("loaded");
     loadingScreen!.classList.add("hidden");
-    document.body.style.overflow = "scroll";
+    document.body.style.overflow = "auto";
   }
 
   if (video!.readyState >= 3) {
