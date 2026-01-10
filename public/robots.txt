@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Allow Yandex and Google to index all content
+User-agent: Yandex
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Disallow temporary/build directories
+Disallow: /_astro/
+Disallow: /.astro/
+Disallow: /dist/
+
+# Sitemap location
+Sitemap: https://karaoke.gastroli.moscow/sitemap.xml
+
+# Crawl-delay for Russian search engines (optional)
+Crawl-delay: 1

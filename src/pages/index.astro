@@ -13,11 +13,11 @@ import Contact from "~/components/contact.astro";
 
 const { generator, site } = Astro;
 const description =
-  "Живое караоке — мероприятие от московского музыкального синдиката, где каждому даётся минута славы";
+  "Живое караоке — мероприятие от гастролей по москве, где каждому даётся минута славы";
 ---
 
 <!doctype html>
-<html lang="en" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+<html lang="ru" class="h-full motion-safe:scroll-smooth" data-theme="dark">
   <head>
     <ClientRouter />
     <meta charset="utf-8" />
@@ -25,15 +25,124 @@ const description =
     <link rel="icon" href="/favicon.ico" type="image/svg+xml" />
     <meta name="generator" content={generator} />
 
-    <title>живое караоке</title>
+    <!-- Russian SEO Meta Tags -->
+    <meta name="yandex-verification" content="" />
+    <meta http-equiv="content-language" content="ru" />
+    <meta name="geo.region" content="RU-MOW" />
+    <meta name="geo.placename" content="Москва" />
+    <meta name="ICBM" content="55.7558,37.6176" />
+    <meta
+      name="keywords"
+      content="караоке москва, живое караоке, караоке вечер, караоке шоу, музыкальное мероприятие москва, петь караоке, караоке бар, караоке на свадьбу, караоке на праздник, караоке на корпоратив, караоке на день рождения, караоке на юбилей, караоке на вечеринку, караоке на мероприятие, караоке на банкет, караоке на концерт, караоке на фестиваль, музыканты на свадьбу, музыканты на праздник, музыканты на корпоратив, музыканты на день рождения, музыканты на юбилей, музыканты на вечеринку, музыканты на мероприятие, музыканты на банкет"
+    />
+
+    <!-- Yandex Metrics -->
+    <script type="text/javascript">
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+        ((k = e.createElement(t)),
+          (a = e.getElementsByTagName(t)[0]),
+          (k.async = 1),
+          (k.src = r),
+          a.parentNode.insertBefore(k, a));
+      })(
+        window,
+        document,
+        "script",
+        "https://mc.yandex.ru/metrika/tag.js",
+        "ym",
+      );
+
+      ym(106188735, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true,
+      });
+    </script>
+    <noscript
+      ><div>
+        <img
+          src="https://mc.yandex.ru/watch/106188735"
+          style="position:absolute; left:-9999px;"
+          alt=""
+        />
+      </div></noscript
+    >
+
+    <!-- Hreflang for Russian users -->
+    <link rel="alternate" hreflang="ru" href={site} />
+    <link rel="alternate" hreflang="x-default" href={site} />
+
+    <title>Живое караоке | Москва | Гастроли по Москве</title>
     <meta name="description" content={description} />
 
-    <!-- social media -->
-    <meta property="og:title" content="Живое караоке" />
+    <!-- OpenGraph для русскоязычных соцсетей -->
+    <meta
+      property="og:title"
+      content="Живое караоке — музыкальное шоу, в котором каждому даётся минута славы"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={site} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="Живое караоке" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Живое караоке" />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Schema.org структурированные данные для Яндекса и Google -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "EntertainmentBusiness",
+        "name": "Живое караоке",
+        "description": "Караоке с живой музыкой в Москве. Около 400 песен в репертуаре.",
+        "url": "https://karaoke.gastroli.moscow",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Москва",
+          "addressRegion": "Московская область",
+          "addressCountry": "RU"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 55.7558,
+          "longitude": 37.6176
+        },
+        "telephone": "",
+        "sameAs": ["https://songbook.gastroli.moscow"],
+        "offers": {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Event",
+            "name": "Вечер живого караоке",
+            "description": "2-часовое интерактивное шоу с живой музыкой",
+            "duration": "PT2H",
+            "location": {
+              "@type": "Place",
+              "name": "Москва",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Москва",
+                "addressCountry": "RU"
+              }
+            }
+          }
+        },
+        "keywords": "караоке москва, живое караоке, караоке вечер, музыкальное шоу москва, интерактивное караоке, петь под живую музыку, музыканты на праздник, музыканты на свадьбу, мероприятия на свадьбу"
+      }
+    </script>
   </head>
   <body
     class="bg-stone-900 pb-6 text-default text-base selection:bg-secondary selection:text-default md:pb-0"
@@ -42,7 +151,7 @@ const description =
     <MuteControl />
     <Title />
     <MainText />
-    <div class="block h-[calc(100svh-10rem)] w-full md:h-36"></div>
+    <div class="block h-[calc(100svh-10rem)] w-full md:h-24"></div>
     <TechRider />
     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2 md:px-4">
       <Contact />
