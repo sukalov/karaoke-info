@@ -6,12 +6,18 @@
   </div>
 </div>
 
-<video class="video-background overflow-x-hidden" id="bgVideo" autoplay muted loop playsinline>
+<video
+  class="video-background overflow-x-hidden"
+  id="bgVideo"
+  autoplay
+  muted
+  loop
+  playsinline
+>
   <source
     src={"https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIw1LCZEL29jJByc8GmSkzIMr7UC06QTnN5Alt4"}
     type="video/mp4"
-  />
-  your browser does not support the video tag.
+  /> your browser does not support the video tag.
 </video>
 
 <script>
@@ -22,6 +28,7 @@
   function handleVideoLoaded() {
     video!.classList.add("loaded");
     loadingScreen!.classList.add("hidden");
+    console.log("video loaded");
     document.body.style.overflow = "auto";
   }
 

@@ -8,6 +8,8 @@ import MuteControl from "~/components/mute-control.astro";
 import MainText from "~/components/main-text.astro";
 import Synth from "~/components/synth/synth.astro";
 import { ClientRouter } from "astro:transitions";
+import TechRider from "~/components/tech-rider.astro";
+import Contact from "~/components/contact.astro";
 
 const { generator, site } = Astro;
 const description =
@@ -34,14 +36,19 @@ const description =
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body
-    class="overflow-hidden bg-stone-900 pb-6 text-default text-base selection:bg-secondary selection:text-default md:pb-0"
+    class="bg-stone-900 pb-6 text-default text-base selection:bg-secondary selection:text-default md:pb-0"
   >
     <VideoBackground />
     <MuteControl />
     <Title />
     <MainText />
-    <div class="block h-[calc(100svh-10rem)] w-full relative md:hidden"></div>
-    <Synth />
+    <div class="block h-[calc(100svh-10rem)] w-full md:h-36"></div>
+    <TechRider />
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2 md:px-4">
+      <Contact />
+      <Synth />
+    </div>
     <Footer />
   </body>
 </html>
+<style></style>

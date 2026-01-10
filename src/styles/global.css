@@ -10,3 +10,29 @@ a,
   @apply bg-clip-text text-transparent;
   @apply bg-gradient-to-br from-green-700 via-green-300 to-stone-900;
 }
+
+.list-note {
+  list-style: none;
+}
+
+.list-note li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.list-note li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  height: 1.2rem;
+  width: 1.2rem;
+  background-image: url("/icons/note.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  mask-image: url("/icons/note.svg");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  background-image: none;
+  background-color: currentColor;
+}

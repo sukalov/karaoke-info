@@ -1,0 +1,65 @@
+---
+
+---
+
+<div class="overflow-visible pt-8 md:h-0 md:p-0 md:mt-32 md:-mb-28 md:ml-32">
+  <section
+    class="fast-div2 mx-2 md:ml-32 rounded-[3rem] bg-default p-8 opacity-85 md:absolute md:left-4 md:w-[30rem] md:p-6 lg:w-[min(30vw,30rem)] lg:p-8"
+  >
+    <div class="opacity-none">
+      <h2 class="mb-2 text-center font-extrabold text-offset text-xl">
+        тех-райдер
+      </h2>
+      <p class="text-balance text-default">
+        Базовый минимум для проведения мероприятия:
+        <ul class="list-note pl-2 md:pl-4">
+          <li>
+            Порядка 6м<sup>2</sup> под сцену
+          </li>
+          <li>Стабильная связь (мобильная или вайфай)</li>
+          <li>Розетки недалеко от места сцены</li>
+        </ul><br />
+        Мы можем задействовать ваше звуковое оборудование и берём на себя
+        аренду и доставку всего недостающего. Полный технический райдер можно найти
+        в <a
+          class="gradient-text cursor-pointer transition-all hover:text-primary"
+          href="/tech-rider.pdf">этом файле!</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const isMobile = () => window.innerWidth < 768;
+
+    if (!isMobile()) {
+      const fast = document.querySelector(".fast-div2") as HTMLElement;
+
+      if (fast) {
+        let raf: number | null = null;
+        const speedMultiplier = 1.3; // Unique scroll speed for tech-rider
+        const initY = 0;
+        let lastScrollY = window.scrollY;
+
+        const updatePosition = () => {
+          fast.style.transform = `translateY(${initY - window.scrollY * speedMultiplier}px)`;
+          raf = null;
+        };
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            const currentScrollY = window.scrollY;
+            if (Math.abs(currentScrollY - lastScrollY) >= 2) {
+              lastScrollY = currentScrollY;
+              if (!raf) {
+                raf = requestAnimationFrame(updatePosition);
+              }
+            }
+          },
+          { passive: true }
+        );
+      }
+    }
+  </script>
+</div>
