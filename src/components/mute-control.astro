@@ -33,29 +33,32 @@ import { Icon } from "astro-icon/components";
 
     const isMobile = () => window.innerWidth < 768;
 
-  if (isMobile()) {
-    // Add scroll event listener to hide button when at bottom
-    window.addEventListener("scroll", () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      
-      // Calculate how close we are to the bottom (within 100px of bottom)
-      const isNearBottom = pageHeight - scrollPosition < 100;
-      
-      if (isNearBottom) {
-        button.classList.add("opacity-0", "pointer-events-none");
-      } else {
-        button.classList.remove("opacity-0", "pointer-events-none");
-      }
-    });
-  }}
+    if (isMobile()) {
+      // Add scroll event listener to hide button when at bottom
+      window.addEventListener("scroll", () => {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const pageHeight = document.documentElement.scrollHeight;
+
+        // Calculate how close we are to the bottom (within 100px of bottom)
+        const isNearBottom = pageHeight - scrollPosition < 100;
+
+        if (isNearBottom) {
+          button.classList.add("opacity-0", "pointer-events-none");
+        } else {
+          button.classList.remove("opacity-0", "pointer-events-none");
+        }
+      });
+    }
+  }
 </script>
 
 <style>
   .unmute-button {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
-  
+
   .unmute-button.opacity-0 {
     transform: translateY(20px);
   }

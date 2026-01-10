@@ -13,4 +13,3 @@ landing page for the karaoke project. connected to:
 
 - **synth** - original interactive synth component with animations and big choice of sounds built by [eva decker](https://eva.town)
 - **loading waves** - css loader with sound wave built by [andré swanepoel](https://codepen.io/AwesomeAndre)
-

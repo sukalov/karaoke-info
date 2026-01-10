@@ -4,6 +4,6 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://karaoke-info.sukalov.dev',
+  site: "https://karaoke-info.sukalov.dev",
   integrations: [tailwind(), icon()],
 });
