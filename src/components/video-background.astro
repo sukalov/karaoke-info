@@ -178,30 +178,100 @@
     preloadVideo.preload = 'auto';
     preloadVideo.src = highQualitySource.src;
     
+    // Add loading overlay for smooth transition
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    `;
+    document.body.appendChild(loadingOverlay);
+    
+    // Show subtle loading overlay
+    requestAnimationFrame(() => {
+      loadingOverlay.style.opacity = '0.5';
+    });
+    
     preloadVideo.addEventListener('canplaythrough', () => {
       console.log("High-quality video preloaded, switching seamlessly...");
       
-      // Store current state
+      // Store current state and prepare for seamless switch
       const currentTime = video.currentTime;
       const wasPlaying = !video.paused;
+      const currentVolume = video.volume;
       
-      // Switch to high quality
-      video.src = highQualitySource.src;
-      video.currentTime = currentTime;
+      // Create smooth crossfade transition
+      const smoothSwitch = async (): Promise<void> => {
+        try {
+          // Pause current video
+          video.pause();
+          
+          // Load high quality video
+          video.src = highQualitySource.src;
+          
+          // Wait for video to be ready
+          await new Promise<void>(resolve => {
+            if (video.readyState >= 4) {
+              resolve();
+            } else {
+              video.addEventListener('loadeddata', () => resolve(), { once: true });
+            }
+          });
+          
+          // Restore playback state
+          video.currentTime = Math.min(currentTime, video.duration - 0.5);
+          video.volume = currentVolume;
+          
+          // Fade out loading overlay
+          loadingOverlay.style.opacity = '0';
+          
+          setTimeout(() => {
+            document.body.removeChild(loadingOverlay);
+          }, 300);
+          
+          // Resume playback
+          if (wasPlaying) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(err => console.log("Auto-play prevented after upgrade:", err));
+            }
+          }
+          
+          highQualityVideoLoaded = true;
+          highQualityVideoLoading = false;
+          
+          console.log("Successfully upgraded to uncompressed high-quality video");
+        } catch (error) {
+          console.error("Error during video switch:", error);
+          loadingOverlay.style.opacity = '0';
+          setTimeout(() => {
+            if (document.body.contains(loadingOverlay)) {
+              document.body.removeChild(loadingOverlay);
+            }
+          }, 300);
+          highQualityVideoLoading = false;
+        }
+      };
       
-      // Maintain play state
-      if (wasPlaying) {
-        video.play().catch(err => console.log("Auto-play prevented after upgrade:", err));
-      }
-      
-      highQualityVideoLoaded = true;
-      highQualityVideoLoading = false;
-      
-      console.log("Successfully upgraded to uncompressed high-quality video");
+      // Execute smooth switch
+      smoothSwitch();
     }, { once: true });
     
     preloadVideo.addEventListener('error', () => {
       console.log("High-quality video failed to load, staying with current quality");
+      loadingOverlay.style.opacity = '0';
+      setTimeout(() => {
+        if (document.body.contains(loadingOverlay)) {
+          document.body.removeChild(loadingOverlay);
+        }
+      }, 300);
       highQualityVideoLoading = false;
     }, { once: true });
     
@@ -237,8 +307,40 @@
         if (mediumQualitySource && video.src !== mediumQualitySource.src) {
           console.log("Upgrading to 720p video");
           const currentTime = video.currentTime;
-          video.src = mediumQualitySource.src;
-          video.currentTime = currentTime;
+          const wasPlaying = !video.paused;
+          const currentVolume = video.volume;
+          
+          // Smooth transition for 720p upgrade
+          const smoothUpgrade = async () => {
+            try {
+              video.pause();
+              video.src = mediumQualitySource.src;
+              
+              await new Promise(resolve => {
+                if (video.readyState >= 4) {
+                  resolve();
+                } else {
+                  video.addEventListener('loadeddata', () => resolve(), { once: true });
+                }
+              });
+              
+              video.currentTime = Math.min(currentTime, video.duration - 0.5);
+              video.volume = currentVolume;
+              
+              if (wasPlaying) {
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                  playPromise.catch(err => console.log("Auto-play prevented after 720p upgrade:", err));
+                }
+              }
+              
+              console.log("Successfully upgraded to 720p video");
+            } catch (error) {
+              console.error("Error during 720p upgrade:", error);
+            }
+          };
+          
+          smoothUpgrade();
         }
       }
     }
