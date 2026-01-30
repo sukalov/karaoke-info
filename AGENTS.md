@@ -1,18 +1,16 @@
 # AGENTS.md
 
-This file provides essential information for agentic coding agents working on this karaoke landing page project.
+Guidelines for agentic coding agents working on this Astro-based karaoke landing page.
 
 ## Project Overview
 
-This is an Astro-based landing page for "Живое караоке" (Live Karaoke), a musical event featuring an interactive piano synthesizer component. The project uses TypeScript, Tailwind CSS, and includes audio functionality with Howler.js.
+Landing page for "Живое караоке" (Live Karaoke) featuring an interactive piano synthesizer. Built with Astro, TypeScript, Tailwind CSS, and Howler.js for audio.
 
-### UI Design Philosophy
+### Design Philosophy
 
-The landing page features a dynamic, layered design with:
-
-- **Video Background**: Full-screen autoplay video loop with loading screen
-- **Floating Content Blocks**: Semi-transparent content sections that float at different speeds during scrolling on desktop devices
-- **Mobile-First Layout**: Stacked layout on mobile, floating parallax effect on desktop (md: breakpoint)
+- **Video Background**: Full-screen autoplay video with loading screen
+- **Floating Blocks**: Semi-transparent content sections with parallax scrolling on desktop
+- **Mobile-First**: Stacked layout on mobile, floating effect on desktop (`md:` breakpoint)
 
 ## Development Commands
 
@@ -21,45 +19,45 @@ The landing page features a dynamic, layered design with:
 - `npm run dev` / `npm start` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run format` - Format code with Prettier (uses \*_/_.astro pattern)
+- `npm run format` - Format code with Prettier (runs `prettier --write **/*.astro .`)
 - `npm run clean` - Clean dist, .astro, and node_modules
 
 ### Testing
 
-No test framework is currently configured in this project. If tests are added, update this section with the specific test commands.
+No test framework configured. If adding tests, use `npm test` and `npm test -- <pattern>` for single tests.
 
 ## Code Style Guidelines
 
 ### File Structure
 
-- **Pages**: `src/pages/` - Astro route files
+- **Pages**: `src/pages/` - Astro routes
 - **Components**: `src/components/` - Reusable Astro components
 - **Styles**: `src/styles/` - Global CSS files
-- **Types**: `src/types.ts` - TypeScript type definitions (currently empty)
-- **Assets**: `public/` - Static assets (images, sounds, icons)
+- **Types**: `src/types.ts` - TypeScript definitions (currently empty)
+- **Assets**: `public/` - Static assets
 
 ### Import Conventions
 
 ```typescript
+// External imports first, then internal
+import { Howl } from "howler";
+import { sounds } from "./sounds.ts";
+
 // Use ~ alias for src imports
 import Component from "~/components/component.astro";
 import "~/styles/global.css";
-
-// External imports first, then internal imports
-import { Howl } from "howler";
-import { sounds } from "./sounds.ts";
 ```
 
 ### TypeScript/JavaScript
 
 - Use TypeScript for all logic
-- Define types in `src/types.ts` when creating complex data structures
-- Use proper typing for function parameters and return values
-- Use `const` by default, `let` only when reassignment is needed
+- Define types in `src/types.ts` for complex structures
+- Use proper typing for parameters and return values
+- Use `const` by default, `let` only when needed
 - Use `NodeJS.Timeout` for setTimeout return values
-- Use browser-native types for DOM elements (e.g., `SVGGElement`, `SVGElement`)
+- Use browser-native DOM types (`SVGGElement`, `SVGElement`)
 
-### Astro Component Patterns
+### Astro Component Pattern
 
 ```astro
 ---
@@ -86,26 +84,21 @@ const { prop1, prop2 } = Astro.props;
 - Use Tailwind classes for rapid styling
 - Use `lang="scss"` blocks for complex component styles
 - Follow mobile-first responsive design
-- Use custom CSS variables defined in theme system
-- Maintain consistent spacing with Tailwind's spacing scale
+- Use CSS variables from theme system (`bg-default`, `text-default`)
 
-### Floating Blocks Implementation
-
-The floating content blocks use a parallax scrolling effect with these characteristics:
-
-#### Component Structure
+### Floating Blocks Pattern
 
 ```astro
 <div class="overflow-visible pt-8 md:h-0 md:p-0 md:pl-4">
   <section
-    class="fast-div mx-2 rounded-[3rem] bg-default p-8 opacity-85 md:absolute md:mr-auto md:w-[22rem]"
+    class="fast-div bg-default mx-2 rounded-[3rem] p-8 opacity-85 md:absolute md:mr-auto md:w-[22rem]"
   >
     <!-- Content -->
   </section>
 </div>
 ```
 
-#### Parallax JavaScript Pattern
+Parallax JavaScript:
 
 ```javascript
 const isMobile = () => window.innerWidth < 768;
@@ -114,7 +107,7 @@ if (!isMobile()) {
   const element = document.querySelector(".element-class") as HTMLElement;
   if (element) {
     let raf: number | null = null;
-    const speedMultiplier = 2.65; // Unique speed for each block
+    const speedMultiplier = 2.65; // Unique per block
     const initY = 0;
     let lastScrollY = window.scrollY;
 
@@ -136,20 +129,12 @@ if (!isMobile()) {
 }
 ```
 
-#### Speed Multipliers by Block
+**Speed Multipliers**:
 
-- **Title Block**: Variable speed (2.65x, then 2x with wait time)
-- **Main Text Block**: 2.65x speed multiplier
-- **Tech Rider Block**: 1.3x speed multiplier
-- **Contact/Synth Blocks**: No floating (static positioning)
-
-#### Styling Guidelines
-
-- Use `opacity-85` for semi-transparent backgrounds
-- Apply `rounded-[3rem]` for consistent rounded corners
-- Use `bg-default` (theme variable) for background colors
-- Mobile: `mx-2` margins with responsive padding
-- Desktop: `md:absolute` positioning with specific widths and offsets
+- Title Block: Variable (2.65x, then 2x with wait time)
+- Main Text: 2.65x
+- Tech Rider: 1.3x
+- Contact/Synth: No floating (static)
 
 ### Naming Conventions
 
@@ -158,16 +143,16 @@ if (!isMobile()) {
 - **Functions**: camelCase (e.g., `pressKey`, `handleMouseDown`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `SOUNDS_DIRECTORY`)
 - **CSS Classes**: kebab-case with Tailwind utilities
-- **Types**: PascalCase (e.g., `NoteName`, `WhiteKey`, `BlackKey`)
+- **Types**: PascalCase (e.g., `NoteName`, `WhiteKey`)
 
 ### Error Handling
 
-- Use `tiny-invariant` for runtime assertions where appropriate
+- Use `tiny-invariant` for runtime assertions
 - Check for null/undefined DOM elements before operations
-- Handle browser API differences gracefully (e.g., AudioContext)
+- Handle browser API differences gracefully
 - Use optional chaining for safe property access
 
-### Audio/Synth Component Guidelines
+### Audio/Synth Guidelines
 
 - Use Howler.js for audio playback
 - Define sound sprite mappings with precise timing
@@ -176,19 +161,17 @@ if (!isMobile()) {
 - Prevent default behaviors for audio interactions
 - Clean up audio resources on unmount
 
-### Configuration
+## Configuration
 
-- **Astro Config**: Simple setup with Tailwind and astro-icon integrations
-- **Tailwind**: Extended theme with custom colors, fonts (Inter Variable), and fluid-type plugin
-- **TypeScript**: Strict mode enabled with path mapping for ~ alias
-- **Prettier**: Configured with astro and tailwindcss plugins
+- **Astro**: Simple setup with Tailwind and astro-icon integrations
+- **Tailwind**: Extended theme with custom colors, Inter Variable font, fluid-type plugin
+- **TypeScript**: Strict mode with `~/*` path mapping to `src/*`
+- **Prettier**: astro and tailwindcss plugins
 
 ## Development Workflow
 
-### Making Changes
-
-1. Read existing files to understand patterns before editing
-2. Follow the established file structure and naming conventions
+1. Read existing files to understand patterns
+2. Follow established file structure and naming
 3. Use the same libraries and patterns as existing code
 4. Format code before committing: `npm run format`
 5. Test changes in development: `npm run dev`
@@ -201,23 +184,21 @@ if (!isMobile()) {
 - Use semantic HTML5 elements
 - Implement proper event handling with cleanup
 
-### Performance Considerations
+### Performance
 
 - Use Astro islands for client-side interactivity
 - Lazy load audio assets
-- Optimize images and assets in public folder
-- Use CSS transitions instead of JavaScript animations where possible
-- Implement `requestAnimationFrame` throttling for scroll-based animations
-- Use `{ passive: true }` for scroll event listeners to improve performance
+- Optimize images and assets
+- Use CSS transitions over JS animations
+- Implement `requestAnimationFrame` throttling
+- Use `{ passive: true }` for scroll listeners
 
 ## Tool Integration
 
-This project uses:
+- **Astro 5.17.1** with strict TypeScript
+- **Tailwind CSS 4.1.18** with custom theme
+- **Howler.js 2.2.4** for audio
+- **Prettier** with astro and tailwind plugins
+- **SCSS** via sass-embedded
 
-- **Astro 5.7.4** with strict TypeScript configuration
-- **Tailwind CSS 3.4.19** with custom theme and fluid-type plugin
-- **Howler.js 2.2.4** for audio functionality
-- **Prettier** with astro and tailwind plugins for formatting
-- **SCSS** support via sass-embedded
-
-Always check package.json for the latest versions and available scripts.
+Always check package.json for latest versions and scripts.
