@@ -33,7 +33,15 @@
 </div>
 
 <script>
-  const isMobile = () => window.innerWidth < 768;
+  const isMobile = () => {
+    const isSmallScreen = window.innerWidth < 1024;
+    const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const hasNoHover = window.matchMedia("(hover: none)").matches;
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    return isSmallScreen || (hasCoarsePointer && hasNoHover) || isTouchDevice;
+  };
 
   if (!isMobile()) {
     const fast = document.querySelector(".fast-div") as HTMLElement;
