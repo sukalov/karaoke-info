@@ -163,16 +163,13 @@
       // Convert downlink (Mbps) to MB/s for comparison
       networkSpeedHint = downlink ? downlink / 8 : 0;
 
-      // If very slow network, don't even try to upgrade
+      // Log network info for debugging
       if (effectiveType === "slow-2g" || effectiveType === "2g") {
-        console.log("Slow network detected, staying with 360p");
-        speedMeasurementComplete = true;
-        return;
-      }
-
-      // If fast network, we can be more aggressive with upgrade
-      if (effectiveType === "4g" && downlink > 10) {
-        console.log("Fast 4G detected, will upgrade when video loads");
+        console.log(
+          "Slow network detected, but will still attempt high quality preload",
+        );
+      } else if (effectiveType === "4g" && downlink > 10) {
+        console.log("Fast 4G detected");
       }
     }
 
@@ -224,18 +221,14 @@
         `Speed measurement complete: ${measuredDownloadSpeed.toFixed(2)} MB/s`,
       );
 
-      // Decision: Combine Network API + measured speed
-      // If we have a good signal from either source, proceed with switch
-      const shouldUpgrade = measuredDownloadSpeed > 2 || networkSpeedHint > 3;
-
-      if (shouldUpgrade && highQualityVideoLoaded) {
-        console.log("Good speed detected and high quality ready, switching...");
-        switchToHighQuality();
-      } else if (shouldUpgrade && !highQualityVideoLoaded) {
-        console.log("Good speed detected, waiting for high quality to load...");
-        // Switch will happen when high quality finishes loading
+      // Speed measurement is now for logging only
+      // Switch happens automatically when high quality video loads
+      // If high quality already loaded before measurement completed,
+      // the switch already happened in the canplaythrough handler
+      if (highQualityVideoLoaded) {
+        console.log("High quality already loaded and switched");
       } else {
-        console.log("Speed insufficient, staying with 360p");
+        console.log("High quality still loading, will switch when ready");
       }
     }, measureDuration);
   }
@@ -282,13 +275,12 @@
     preloadVideo.addEventListener(
       "canplaythrough",
       () => {
-        console.log("High quality video preloaded and ready");
+        console.log("High quality video preloaded and ready - switching now");
         highQualityVideoLoaded = true;
 
-        // If speed measurement is complete and good, switch immediately
-        if (speedMeasurementComplete && measuredDownloadSpeed > 2) {
-          switchToHighQuality();
-        }
+        // Always switch to high quality when it's loaded
+        // The download already succeeded, so bandwidth is sufficient
+        switchToHighQuality();
 
         // Clean up preload element
         document.body.removeChild(preloadVideo);
