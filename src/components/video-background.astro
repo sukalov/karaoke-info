@@ -25,21 +25,13 @@
   title='Живое караоке "Баркe"'
   aria-label='Живое караоке в ромочной "Барка", Гостинный двор, Москва, 2024'
 >
-  <!-- Progressive loading: start with compressed versions -->
   <source
-    src="https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIwztnRXa2VdeYZrjIPmconuM5LR80KTQbtJyi9"
+    src="https://f003.backblazeb2.com/file/mkeverything/barka-360.mp4"
     type="video/mp4"
     data-quality="360p"
   />
   <source
-    src="https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIwbaSnDxfjz6KN98mFsBMvn14ES75CP2Gl0qJf"
-    type="video/mp4"
-    data-quality="720p"
-    media="(min-width: 768px)"
-  />
-  <!-- High-quality uncompressed version for fast connections (260MB) -->
-  <source
-    src="https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIwz4kJsWVdeYZrjIPmconuM5LR80KTQbtJyi93"
+    src="https://f003.backblazeb2.com/file/mkeverything/barka-compressed.mp4"
     type="video/mp4"
     data-quality="uncompressed"
     data-high-quality="true"
@@ -138,7 +130,7 @@
 
     // Small file for speed test
     const testUrl =
-      "https://i65j0p78ch.ufs.sh/f/G5bUt43DiqIwztnRXa2VdeYZrjIPmconuM5LR80KTQbtJyi9";
+      "https://f003.backblazeb2.com/file/mkeverything/barka-360.mp4";
     const startTime = performance.now();
 
     try {
@@ -339,7 +331,7 @@
               video.pause();
               video.src = mediumQualitySource.src;
 
-              await new Promise((resolve) => {
+              await new Promise<void>((resolve) => {
                 if (video.readyState >= 4) {
                   resolve();
                 } else {
