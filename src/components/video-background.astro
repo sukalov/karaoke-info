@@ -9,7 +9,7 @@
 <div class="video-fallback" id="videoFallback">
   <img
     src="/barka-fallback.jpg"
-    alt="Живое караоке в ромочной 'Барка'"
+    alt="Живое караоке в рюмочной 'Барка'"
     class="fallback-image"
   />
 </div>
@@ -21,9 +21,9 @@
   muted
   loop
   playsinline
-  preload="metadata"
-  title='Живое караоке "Баркe"'
-  aria-label='Живое караоке в ромочной "Барка", Гостинный двор, Москва, 2024'
+  preload="auto"
+  title='Живое караоке в "Барке"'
+  aria-label='Живое караоке в рюмочной "Барка", Гостинный двор, Москва, 2024'
 >
   <source
     src="https://f003.backblazeb2.com/file/mkeverything/barka-360.mp4"
@@ -61,11 +61,20 @@
   let retryCount = 0;
   const maxRetries = 3;
 
-  // Network speed measurement
-  let networkSpeedTested = false;
+  // Speed measurement state
+  let speedMeasurementStarted = false;
+  let speedMeasurementComplete = false;
   let measuredDownloadSpeed = 0;
-  let highQualityVideoLoading = false;
+  let measurementStartTime = 0;
+  let measurementStartBytes = 0;
+  let highQualityPreloadStarted = false;
   let highQualityVideoLoaded = false;
+
+  // Video file sizes (in bytes) for speed calculation
+  const VIDEO_SIZES = {
+    "360p": 10 * 1024 * 1024, // ~10MB
+    uncompressed: 37 * 1024 * 1024, // ~37MB
+  };
 
   // Disable body scrolling during video load
   document.body.style.overflow = "hidden";
@@ -100,10 +109,11 @@
     // Enable scrolling
     document.body.style.overflow = "auto";
 
-    // Start progressive enhancement after initial load
+    // Start speed measurement and high quality preload after initial load
     setTimeout(() => {
-      enhanceVideoQuality();
-    }, 2000);
+      startSpeedMeasurement();
+      preloadHighQualityVideo();
+    }, 500);
   }
 
   function handleVideoError() {
@@ -122,176 +132,6 @@
     }
   }
 
-  async function measureNetworkSpeed() {
-    if (networkSpeedTested || highQualityVideoLoading) return;
-
-    console.log("Measuring network speed for quality enhancement...");
-    networkSpeedTested = true;
-
-    // Small file for speed test
-    const testUrl =
-      "https://f003.backblazeb2.com/file/mkeverything/barka-360.mp4";
-    const startTime = performance.now();
-
-    try {
-      const response = await fetch(testUrl, {
-        method: "HEAD",
-        cache: "no-cache",
-      });
-
-      if (response.ok) {
-        const downloadTime = (performance.now() - startTime) / 1000;
-        const fileSize = 18 * 1024 * 1024; // 18MB in bytes
-        measuredDownloadSpeed = fileSize / downloadTime / (1024 * 1024); // MB/s
-
-        console.log(
-          `Measured download speed: ${measuredDownloadSpeed.toFixed(2)} MB/s`,
-        );
-
-        // Load high-quality video if speed is sufficient (>5 MB/s for 260MB file)
-        if (measuredDownloadSpeed > 5) {
-          loadHighQualityVideo();
-        }
-      }
-    } catch (error) {
-      console.warn("Network speed test failed:", error);
-    }
-  }
-
-  function loadHighQualityVideo() {
-    if (highQualityVideoLoading || highQualityVideoLoaded) return;
-
-    console.log("Network speed is good, preloading high-quality video...");
-    highQualityVideoLoading = true;
-
-    const highQualitySource = video.querySelector(
-      'source[data-high-quality="true"]',
-    ) as HTMLSourceElement;
-    if (!highQualitySource) return;
-
-    // Create hidden video element for preloading
-    const preloadVideo = document.createElement("video");
-    preloadVideo.muted = true;
-    preloadVideo.preload = "auto";
-    preloadVideo.src = highQualitySource.src;
-
-    // Add loading overlay for smooth transition
-    const loadingOverlay = document.createElement("div");
-    loadingOverlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 999;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-    `;
-    document.body.appendChild(loadingOverlay);
-
-    // Show subtle loading overlay
-    requestAnimationFrame(() => {
-      loadingOverlay.style.opacity = "0.5";
-    });
-
-    preloadVideo.addEventListener(
-      "canplaythrough",
-      () => {
-        console.log("High-quality video preloaded, switching seamlessly...");
-
-        // Store current state and prepare for seamless switch
-        const currentTime = video.currentTime;
-        const wasPlaying = !video.paused;
-        const currentVolume = video.volume;
-
-        // Create smooth crossfade transition
-        const smoothSwitch = async (): Promise<void> => {
-          try {
-            // Pause current video
-            video.pause();
-
-            // Load high quality video
-            video.src = highQualitySource.src;
-
-            // Wait for video to be ready
-            await new Promise<void>((resolve) => {
-              if (video.readyState >= 4) {
-                resolve();
-              } else {
-                video.addEventListener("loadeddata", () => resolve(), {
-                  once: true,
-                });
-              }
-            });
-
-            // Restore playback state
-            video.currentTime = Math.min(currentTime, video.duration - 0.5);
-            video.volume = currentVolume;
-
-            // Fade out loading overlay
-            loadingOverlay.style.opacity = "0";
-
-            setTimeout(() => {
-              document.body.removeChild(loadingOverlay);
-            }, 300);
-
-            // Resume playback
-            if (wasPlaying) {
-              const playPromise = video.play();
-              if (playPromise !== undefined) {
-                playPromise.catch((err) =>
-                  console.log("Auto-play prevented after upgrade:", err),
-                );
-              }
-            }
-
-            highQualityVideoLoaded = true;
-            highQualityVideoLoading = false;
-
-            console.log(
-              "Successfully upgraded to uncompressed high-quality video",
-            );
-          } catch (error) {
-            console.error("Error during video switch:", error);
-            loadingOverlay.style.opacity = "0";
-            setTimeout(() => {
-              if (document.body.contains(loadingOverlay)) {
-                document.body.removeChild(loadingOverlay);
-              }
-            }, 300);
-            highQualityVideoLoading = false;
-          }
-        };
-
-        // Execute smooth switch
-        smoothSwitch();
-      },
-      { once: true },
-    );
-
-    preloadVideo.addEventListener(
-      "error",
-      () => {
-        console.log(
-          "High-quality video failed to load, staying with current quality",
-        );
-        loadingOverlay.style.opacity = "0";
-        setTimeout(() => {
-          if (document.body.contains(loadingOverlay)) {
-            document.body.removeChild(loadingOverlay);
-          }
-        }, 300);
-        highQualityVideoLoading = false;
-      },
-      { once: true },
-    );
-
-    // Start preloading
-    preloadVideo.load();
-  }
-
   function showFallback() {
     console.log("Showing fallback image due to video load failure");
     if (loadingScreen) {
@@ -305,64 +145,224 @@
     document.body.style.overflow = "auto";
   }
 
-  function enhanceVideoQuality() {
+  // Hybrid speed measurement: Network API + Video loading
+  function startSpeedMeasurement() {
+    if (speedMeasurementStarted || speedMeasurementComplete) return;
+
+    speedMeasurementStarted = true;
+    console.log("Starting hybrid speed measurement...");
+
+    // Phase 1: Check Network Information API immediately
     const connection = navigator.connection;
-    if (connection && !highQualityVideoLoading && !highQualityVideoLoaded) {
-      if (connection.effectiveType === "4g" || connection.downlink > 5) {
-        measureNetworkSpeed();
+    let networkSpeedHint = 0;
 
-        // Also try 720p upgrade immediately
-        const sources = video.querySelectorAll("source");
-        const mediumQualitySource = Array.from(sources).find(
-          (source) =>
-            source.src.includes("720p") &&
-            !source.hasAttribute("data-high-quality"),
-        );
+    if (connection) {
+      const { effectiveType, downlink } = connection;
+      console.log(`Network API: ${effectiveType}, ${downlink} Mbps`);
 
-        if (mediumQualitySource && video.src !== mediumQualitySource.src) {
-          console.log("Upgrading to 720p video");
-          const currentTime = video.currentTime;
-          const wasPlaying = !video.paused;
-          const currentVolume = video.volume;
+      // Convert downlink (Mbps) to MB/s for comparison
+      networkSpeedHint = downlink ? downlink / 8 : 0;
 
-          // Smooth transition for 720p upgrade
-          const smoothUpgrade = async () => {
-            try {
-              video.pause();
-              video.src = mediumQualitySource.src;
+      // If very slow network, don't even try to upgrade
+      if (effectiveType === "slow-2g" || effectiveType === "2g") {
+        console.log("Slow network detected, staying with 360p");
+        speedMeasurementComplete = true;
+        return;
+      }
 
-              await new Promise<void>((resolve) => {
-                if (video.readyState >= 4) {
-                  resolve();
-                } else {
-                  video.addEventListener("loadeddata", () => resolve(), {
-                    once: true,
-                  });
-                }
-              });
-
-              video.currentTime = Math.min(currentTime, video.duration - 0.5);
-              video.volume = currentVolume;
-
-              if (wasPlaying) {
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                  playPromise.catch((err) =>
-                    console.log("Auto-play prevented after 720p upgrade:", err),
-                  );
-                }
-              }
-
-              console.log("Successfully upgraded to 720p video");
-            } catch (error) {
-              console.error("Error during 720p upgrade:", error);
-            }
-          };
-
-          smoothUpgrade();
-        }
+      // If fast network, we can be more aggressive with upgrade
+      if (effectiveType === "4g" && downlink > 10) {
+        console.log("Fast 4G detected, will upgrade when video loads");
       }
     }
+
+    // Phase 2: Measure actual video loading speed
+    measurementStartTime = performance.now();
+    measurementStartBytes = getLoadedBytes();
+
+    // Set up progress listener for 3 seconds
+    const measureDuration = 3000; // 3 seconds
+
+    const progressHandler = () => {
+      if (speedMeasurementComplete) return;
+
+      const currentTime = performance.now();
+      const elapsed = (currentTime - measurementStartTime) / 1000; // seconds
+
+      if (elapsed >= 0.5) {
+        // Measure for at least 0.5s to get meaningful data
+        const currentBytes = getLoadedBytes();
+        const bytesLoaded = currentBytes - measurementStartBytes;
+
+        if (bytesLoaded > 0) {
+          measuredDownloadSpeed = bytesLoaded / elapsed / (1024 * 1024); // MB/s
+          console.log(
+            `Measured speed: ${measuredDownloadSpeed.toFixed(2)} MB/s (${elapsed.toFixed(1)}s)`,
+          );
+        }
+      }
+    };
+
+    video.addEventListener("progress", progressHandler);
+
+    // Complete measurement after 3 seconds
+    setTimeout(() => {
+      video.removeEventListener("progress", progressHandler);
+      speedMeasurementComplete = true;
+
+      // Calculate final speed
+      const finalTime = performance.now();
+      const finalElapsed = (finalTime - measurementStartTime) / 1000;
+      const finalBytes = getLoadedBytes();
+      const totalBytesLoaded = finalBytes - measurementStartBytes;
+
+      if (totalBytesLoaded > 0 && finalElapsed > 0) {
+        measuredDownloadSpeed = totalBytesLoaded / finalElapsed / (1024 * 1024);
+      }
+
+      console.log(
+        `Speed measurement complete: ${measuredDownloadSpeed.toFixed(2)} MB/s`,
+      );
+
+      // Decision: Combine Network API + measured speed
+      // If we have a good signal from either source, proceed with switch
+      const shouldUpgrade = measuredDownloadSpeed > 2 || networkSpeedHint > 3;
+
+      if (shouldUpgrade && highQualityVideoLoaded) {
+        console.log("Good speed detected and high quality ready, switching...");
+        switchToHighQuality();
+      } else if (shouldUpgrade && !highQualityVideoLoaded) {
+        console.log("Good speed detected, waiting for high quality to load...");
+        // Switch will happen when high quality finishes loading
+      } else {
+        console.log("Speed insufficient, staying with 360p");
+      }
+    }, measureDuration);
+  }
+
+  function getLoadedBytes(): number {
+    if (video.buffered.length === 0) return 0;
+
+    // Get the end of the buffered range (most data loaded)
+    const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+
+    // Estimate bytes based on video duration and buffered percentage
+    // This is approximate but sufficient for speed comparison
+    if (video.duration && video.duration > 0) {
+      const bufferedRatio = bufferedEnd / video.duration;
+      return Math.floor(VIDEO_SIZES["360p"] * bufferedRatio);
+    }
+
+    return 0;
+  }
+
+  function preloadHighQualityVideo() {
+    if (highQualityPreloadStarted) return;
+
+    console.log("Preloading high quality video in background...");
+    highQualityPreloadStarted = true;
+
+    const highQualitySource = video.querySelector(
+      'source[data-high-quality="true"]',
+    ) as HTMLSourceElement;
+
+    if (!highQualitySource) {
+      console.warn("High quality source not found");
+      return;
+    }
+
+    // Create hidden video element for preloading
+    const preloadVideo = document.createElement("video");
+    preloadVideo.muted = true;
+    preloadVideo.preload = "auto";
+    preloadVideo.src = highQualitySource.src;
+    preloadVideo.style.display = "none";
+    document.body.appendChild(preloadVideo);
+
+    preloadVideo.addEventListener(
+      "canplaythrough",
+      () => {
+        console.log("High quality video preloaded and ready");
+        highQualityVideoLoaded = true;
+
+        // If speed measurement is complete and good, switch immediately
+        if (speedMeasurementComplete && measuredDownloadSpeed > 2) {
+          switchToHighQuality();
+        }
+
+        // Clean up preload element
+        document.body.removeChild(preloadVideo);
+      },
+      { once: true },
+    );
+
+    preloadVideo.addEventListener(
+      "error",
+      () => {
+        console.warn("High quality video failed to preload");
+        document.body.removeChild(preloadVideo);
+      },
+      { once: true },
+    );
+
+    // Start preloading
+    preloadVideo.load();
+  }
+
+  function switchToHighQuality() {
+    if (!highQualityVideoLoaded) return;
+
+    console.log("Switching to high quality video...");
+
+    const highQualitySource = video.querySelector(
+      'source[data-high-quality="true"]',
+    ) as HTMLSourceElement;
+
+    if (!highQualitySource) return;
+
+    // Store current state
+    const currentTime = video.currentTime;
+    const wasPlaying = !video.paused;
+    const currentVolume = video.volume;
+
+    // Seamless switch
+    const performSwitch = async () => {
+      try {
+        video.pause();
+        video.src = highQualitySource.src;
+
+        // Wait for video to be ready
+        await new Promise<void>((resolve) => {
+          if (video.readyState >= 4) {
+            resolve();
+          } else {
+            video.addEventListener("loadeddata", () => resolve(), {
+              once: true,
+            });
+          }
+        });
+
+        // Restore playback state
+        video.currentTime = Math.min(currentTime, video.duration - 0.5);
+        video.volume = currentVolume;
+
+        // Resume playback
+        if (wasPlaying) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) =>
+              console.log("Auto-play prevented after upgrade:", err),
+            );
+          }
+        }
+
+        console.log("Successfully upgraded to high quality video");
+      } catch (error) {
+        console.error("Error during video switch:", error);
+      }
+    };
+
+    performSwitch();
   }
 
   // Setup timeout mechanism
@@ -417,13 +417,8 @@
         connection.effectiveType === "slow-2g" ||
         connection.effectiveType === "2g"
       ) {
-        showFallback();
-      } else if (connection.effectiveType === "3g") {
-        console.log("3G detected, staying with current quality");
-      } else {
-        if (!highQualityVideoLoaded) {
-          measureNetworkSpeed();
-        }
+        // Don't switch to high quality on slow networks
+        console.log("Slow network detected, staying with current quality");
       }
     });
   }
