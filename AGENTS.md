@@ -91,7 +91,7 @@ const { prop1, prop2 } = Astro.props;
 ```astro
 <div class="overflow-visible pt-8 md:h-0 md:p-0 md:pl-4">
   <section
-    class="fast-div bg-default mx-2 rounded-[3rem] p-8 opacity-85 md:absolute md:mr-auto md:w-[22rem]"
+    class="fast-div mx-2 rounded-[3rem] bg-default p-8 opacity-85 md:absolute md:mr-auto md:w-[22rem]"
   >
     <!-- Content -->
   </section>
@@ -175,6 +175,17 @@ if (!isMobile()) {
 3. Use the same libraries and patterns as existing code
 4. Format code before committing: `npm run format`
 5. Test changes in development: `npm run dev`
+
+### Common Mistakes to Avoid
+
+**Responsive Design - Mobile-First Breakpoints:**
+Always check if a style should be mobile-only or desktop-only. The project uses mobile-first approach with `md:` breakpoint for desktop styles.
+
+When fixing layout gaps between sections:
+
+- On **mobile**: Sections stack vertically with normal spacing (no negative margins)
+- On **desktop**: Floating blocks use negative margins to create overlap effects
+- Always verify if the original style had a breakpoint prefix before modifying it
 
 ### Component Development
 
